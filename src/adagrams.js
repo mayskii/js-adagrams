@@ -33,6 +33,7 @@ export const drawLetters = () => {
   const remainingLetters = { ...LETTER_POOL };
   const letters = Object.keys(LETTER_POOL);
 
+  // draw 10 letters randomly into the hand from letters
   while (hand.length < 10) {
     const randomLetter = letters[Math.floor(Math.random() * letters.length)];
     if (remainingLetters[randomLetter] > 0) {
@@ -45,7 +46,24 @@ export const drawLetters = () => {
 };
 
 export const usesAvailableLetters = (input, lettersInHand) => {
-  // Implement this method for wave 2
+
+  if (input.length > lettersInHand.length) {
+    return false;
+  }
+  // create frequency of letters in lettersInHand
+  const frequency = {};
+  lettersInHand.forEach(letter => {
+    frequency[letter] = (frequency[letter] || 0) + 1;
+  });
+
+  // check whether the letters exist in the frequency
+  for (const letter of input){
+    if (!frequency[letter]) {
+      return false;
+    }
+    frequency[letter]--;
+  }
+  return true;
 };
 
 export const scoreWord = (word) => {
